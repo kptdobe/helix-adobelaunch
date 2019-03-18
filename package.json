@@ -1,0 +1,44 @@
+{
+  "name": "project-helix.io",
+  "version": "1.0.0",
+  "description": "Project Helix documentation",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --exit test/**/*",
+    "unit": "mocha --exit test/unit/*",
+    "smoke": "mocha --exit test/smoke/*",
+    "lint": "./node_modules/.bin/eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adobe/project-helix.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adobe/project-helix.io/issues"
+  },
+  "homepage": "https://github.com/adobe/project-helix.io#readme",
+  "dependencies": {
+    "jsdom": "^13.0.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "eslint": "5.15.1",
+    "eslint-config-airbnb": "17.1.0",
+    "eslint-plugin-header": "3.0.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-react": "7.12.4",
+    "fs-extra": "^7.0.1",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
+    "nock": "^10.0.1",
+    "shelljs": "^0.8.2"
+  }
+}

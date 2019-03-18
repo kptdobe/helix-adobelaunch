@@ -1,0 +1,13 @@
+.hlx
+.cache/
+node_modules/
+pipeline.log
+logs
+env.inf
+.env
+test-results.xml
+/.blackbox/pubring.gpg~
+/.blackbox/pubring.kbx~
+/.blackbox/secring.gpg
+/secrets/helix.env
+.DS_Store
