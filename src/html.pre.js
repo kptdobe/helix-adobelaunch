@@ -134,12 +134,34 @@ function extractLastModifiedFromCommitsHistory(commits, logger) {
  * @param String ref Ref
  * @param {Object} logger Logger
  */
-function computeNavPath(logger) {
-  logger.debug('html-pre.js - Fetching the nav');
+async function computeNavPath(apiRoot, owner, repo, ref, path, logger) {
+  logger.debug('html-pre.js - Fectching the nav');
 
-  const summaryPath = '/SUMMARY';
-  logger.debug(`html-pre.js - Development path to SUMMARY.md to generate nav: ${summaryPath}`);
-  return summaryPath;
+  // fetch the whole tree...
+  const options = {
+    uri: `${apiRoot}repos/${owner}/${repo}/git/trees/${ref}?recursive=1`,
+    headers: {
+      'User-Agent': 'Request-Promise',
+    },
+    json: true,
+  };
+
+  logger.debug(`html-pre.js - Fetching... ${options.uri}`);
+  const json = await request(options);
+
+  // ...to find the "closest" SUMMARY.md
+  const currentFolderPath = path.substring(0, path.lastIndexOf('/'));
+
+  const nav = [];
+  json.tree.forEach((item) => {
+    const p = `/${item.path}`;
+    if (p !== currentFolderPath && p.startsWith(currentFolderPath)) {
+      nav.push(p.replace(/\.md$/g, '.html'));
+    }
+  });
+
+  logger.debug(`html-pre.js - Found SUMMARY.md to generate nav: ${nav}`);
+  return nav;
 }
 
 // module.exports.pre is a function (taking next as an argument)
@@ -184,7 +206,12 @@ async function pre(payload, action) {
 
     // fetch and inject the nav
     if (secrets.REPO_RAW_ROOT) {
-      p.content.nav = computeNavPath(
+      p.content.nav = await computeNavPath(
+        secrets.REPO_API_ROOT,
+        actionReq.params.owner,
+        actionReq.params.repo,
+        actionReq.params.ref,
+        actionReq.params.path,
         logger,
       );
     } else {

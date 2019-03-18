@@ -28,8 +28,8 @@
         <div class="title">
             <h1>
                 <span class="menu-icon"></span>
-                <img src="/helix_logo.png" />
-                Documentation
+                <img src="/launch.svg" />
+                Adobe Experience Platform Launch
             </h1>
         </div>
         <div class="search">
@@ -42,7 +42,11 @@
     <div class="main">
         <div class="nav">
             <!-- include ${content.nav}.summary.html-->
-            <esi:include src="${content.nav}.summary.html" />
+            <div class="summary" data-sly-test="${payload.content.nav}">
+                <ul data-sly-list="${payload.content.nav}">
+                    <li><a href="${item}">${item}</a></li>
+                </ul>
+            </div>
         </div>
         <div class="content">
             <div class="content-body">
